@@ -2,8 +2,9 @@ import telebot
 from config import *
 from logic import *
 import random
-
-bot = telebot.TeleBot(TOKEN)
+from logic import create_grapf
+from logic import draw_distance
+bot = telebot.TeleBot(TOKEN,skip_pending=True)
 
 @bot.message_handler(commands=['start'])
 def handle_start(message):
@@ -20,7 +21,7 @@ def handle_help(message):
 @bot.message_handler(commands=['show_city'])
 def handle_show_city(message):
     city_name = message.text.split()[-1]
-    # Реализуй отрисовку города по запросу
+    bot.send_message(message.chat.id, create_grapf() )
        
 
 @bot.message_handler(commands=['remember_city'])
@@ -36,7 +37,7 @@ def handle_remember_city(message):
 def handle_show_visited_cities(message):
     cities = manager.select_cities(message.chat.id)
     # Реализуй отрисовку всех городов
-
+    bot.send_message(message.chat.id, draw_distance() )
 
 if __name__=="__main__":
     manager = DB_Map(DATABASE)
